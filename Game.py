@@ -38,22 +38,61 @@ class Game:
   #lastPlayerToMove 1 for player 1 and -1 for player 2
   #returns False if no win and True if the last player to make a move won
   def checkWin(self,lastPlayerToMove,lastMoveX,lastMoveY):
-    for xDirection in range(-1,2):
-      for yDirection in range(-1,2):
+    for xDirection in range(2):
+      for yDirection in range(2):
         if xDirection==0 and yDirection==0:
           continue
         count=1
-        for i in range(1,4):
-          newPosX=lastMoveX+xDirection*i
-          newPosY=lastMoveY+yDirection*i
-          if newPosX>=self.length or newPosX<0:
-            break
-          if newPosY>=self.height or newPosY<0:
-            break
-          if self.currentBoardState[self.getKey(newPosX,newPosY)]==lastPlayerToMove:
+        distance=0
+        x=lastMoveX
+        y=lastMoveY
+        direction=1#switches to -1 when edge reached
+        while True:
+          x+=xDirection*direction
+          y+=yDirection*direction
+          distance+=1
+          if x>=self.length or x<0:
+            if direction==-1:
+              #no more switching
+              break 
+            else:
+              #switch direction
+              direction=-1
+              x=lastMoveX
+              y=lastMoveY
+              distance=0
+          if y>=self.height or y<0:
+            if direction==-1:
+              break
+            else:
+              #switch direction
+              direction=-1
+              x=lastMoveX
+              y=lastMoveY
+              distance=0
+          if distance==self.target:
+            if direction==-1:
+              break
+            else:
+              #switch direction
+              direction=-1
+              x=lastMoveX
+              y=lastMoveY
+              distance=0
+
+          #no we have our position, check it
+          if self.currentBoardState[self.getKey(x,y)]==lastPlayerToMove:
             count+=1
           else:
-            break
+            if direction==-1:
+              break
+            else:
+              #switch direction
+              direction=-1
+              x=lastMoveX
+              y=lastMoveY
+              distance=0
+
         if count==4:
           return True
     return False
