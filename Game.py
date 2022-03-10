@@ -8,6 +8,7 @@ class Game:
     self.length=length
     self.height=height
     self.target=target
+    self.winningPlayer=0
     self.onWin=None
 
     #list of positions on the board
@@ -93,7 +94,7 @@ class Game:
               y=lastMoveY
               distance=0
 
-        if count==4:
+        if count==target:
           return True
     return False
 
@@ -115,6 +116,7 @@ class Game:
     self.history.append(self.currentBoardState) 
     win=self.checkWin(player,column,lastY)
     if win:
+      self.winningPlayer=player
       if self.onWin!=None:
         self.onWin(player)
     return True,win
