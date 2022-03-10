@@ -4,7 +4,7 @@
 
 class Game:
   
-  def __init__(self,length=7,height=6,target=4):
+  def __init__(self,length=12,height=8,target=5):
     self.length=length
     self.height=height
     self.target=target
