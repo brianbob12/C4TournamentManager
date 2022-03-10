@@ -94,7 +94,7 @@ class Game:
               y=lastMoveY
               distance=0
 
-        if count==target:
+        if count==self.target:
           return True
     return False
 
